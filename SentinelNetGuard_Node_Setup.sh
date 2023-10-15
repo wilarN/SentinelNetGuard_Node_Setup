@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # GitHub repository URL
-GITHUB_REPO="https://github.com/wilarN/SentinelNetGuard/tree/main/server-software/server"
+GITHUB_REPO="https://github.com/wilarN/SentinelNetGuard_Node-Host_Software/tree/main"
 
 # Installation directory
 INSTALL_DIR="/opt/SentinelNetGuard"
