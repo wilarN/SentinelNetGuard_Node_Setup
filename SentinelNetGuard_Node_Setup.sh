@@ -34,8 +34,8 @@ chmod -R o+x "$INSTALL_DIR"
 
 pip3 install -r "$INSTALL_DIR/requirements.txt"
 
-mv "$INSTALL_DIR/sng" "/usr/local/bin/$CUSTOM_COMMAND"
-chmod +x "/usr/local/bin/$CUSTOM_COMMAND"
+mv "$INSTALL_DIR/sng.sh" "/usr/local/bin/$CUSTOM_COMMAND.sh"
+chmod +x "/usr/local/bin/$CUSTOM_COMMAND.sh"
 
 # Start
 cd "$INSTALL_DIR"
