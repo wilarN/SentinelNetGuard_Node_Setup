@@ -7,7 +7,7 @@ GITHUB_REPO="https://github.com/wilarN/SentinelNetGuard_Node-Host_Software"
 INSTALL_DIR="/opt/SentinelNetGuard"
 
 # Custom command to run the main.py script
-CUSTOM_COMMAND="sng.sh"
+CUSTOM_COMMAND="sennet"
 
 # Check for root privileges
 if [ "$(id -u)" != "0" ]; then
@@ -34,7 +34,7 @@ chmod -R o+x "$INSTALL_DIR"
 
 pip3 install -r "$INSTALL_DIR/requirements.txt"
 
-mv "$INSTALL_DIR/sng.sh" "/usr/local/bin/$CUSTOM_COMMAND"
+mv "$INSTALL_DIR/sennet" "/usr/local/bin/$CUSTOM_COMMAND"
 chmod +x "/usr/local/bin/$CUSTOM_COMMAND"
 
 # Start
