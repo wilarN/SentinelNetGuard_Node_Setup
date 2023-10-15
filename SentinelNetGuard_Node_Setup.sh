@@ -15,10 +15,13 @@ if [ "$(id -u)" != "0" ]; then
   exit 1
 fi
 
-# Python and pip check
-if ! python3 --version &> /dev/null || ! pip3 --version &> /dev/null; then
-  echo "Python3 and pip3 are required. Please install them first."
-  exit 1
+# Check for Python 3
+if ! command -v python3 &> /dev/null; then
+  echo "Python 3 is not installed."
+  # Install Python 3
+  apt-get install python3
+  # Install pip3
+  apt-get install python3-pip
 fi
 
 mkdir -p "$INSTALL_DIR"
