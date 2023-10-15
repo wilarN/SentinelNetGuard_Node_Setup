@@ -60,7 +60,7 @@ chmod +x "/usr/local/bin/$CUSTOM_COMMAND"
 # Start
 cd "$INSTALL_DIR"
 if [ -n "$pre_arg" ] && [ -n "$part1_arg" ] && [ -n "$part2_arg" ]; then
-    python3 main.py "-pre" "$pre_arg" "-part1" "$part1_arg" "-part2" "$part2_arg"
+    python3 main.py -pre "$pre_arg" -part1 "$part1_arg" -part2 "$part2_arg"
 else
-    python3 main.py "-pre" "$pre_arg" "-part1" "$part1_arg" "-part2" "$part2_arg"
+    python3 main.py -pre "$pre_arg" -part1 "$part1_arg" -part2 "$part2_arg"
 fi
