@@ -15,6 +15,26 @@ if [ "$(id -u)" != "0" ]; then
   exit 1
 fi
 
+# Initialize variables
+pre_arg=""
+part1_arg=""
+part2_arg=""
+
+# Check if the -pre argument is set
+if [ "$1" == "-pre" ] && [ -n "$2" ]; then
+    pre_arg="$2"
+fi
+
+# Check if the -part1 argument is set
+if [ "$3" == "-part1" ] && [ -n "$4" ]; then
+    part1_arg="$4"
+fi
+
+# Check if the -part2 argument is set
+if [ "$5" == "-part2" ] && [ -n "$6" ]; then
+    part2_arg="$6"
+fi
+
 # Check for Python 3
 if ! command -v python3 &> /dev/null; then
   echo "Python 3 is not installed."
@@ -39,4 +59,8 @@ chmod +x "/usr/local/bin/$CUSTOM_COMMAND"
 
 # Start
 cd "$INSTALL_DIR"
-python3 main.py
+if [ -n "$pre_arg" ] && [ -n "$part1_arg" ] && [ -n "$part2_arg" ]; then
+    python3 main.py -pre "$pre_arg" -part1 "$part1_arg" -part2 "$part2_arg"
+else
+    python3 main.py
+fi
