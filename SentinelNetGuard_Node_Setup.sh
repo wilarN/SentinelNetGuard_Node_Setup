@@ -57,11 +57,6 @@ pip3 install -r "$INSTALL_DIR/requirements.txt"
 mv "$INSTALL_DIR/sennet" "/usr/local/bin/$CUSTOM_COMMAND"
 chmod +x "/usr/local/bin/$CUSTOM_COMMAND"
 
-echo $pre_arg
-echo $part1_arg
-echo $part2_arg
-sleep 5
-
 # Start
 cd "$INSTALL_DIR"
 if [ -n "$pre_arg" ] && [ -n "$part1_arg" ] && [ -n "$part2_arg" ]; then
