@@ -1,46 +1,55 @@
 #!/bin/bash
 
-# GitHub repository URL
 GITHUB_REPO="https://github.com/wilarN/SentinelNetGuard_Node-Host_Software"
 
-# Installation directory
 INSTALL_DIR="/opt/SentinelNetGuard"
 
-# Custom command to run the main.py script
 CUSTOM_COMMAND="sennet"
 
-# Check for root privileges
 if [ "$(id -u)" != "0" ]; then
   echo "Please run the SentinelNetGuard setup script with sudo or as root."
   exit 1
 fi
 
-# Initialize variables
+if [ "$1" == "--uninstall" ]; then
+  if [ -d "$INSTALL_DIR" ]; then
+    echo "Uninstalling SentinelNetGuard Node..."
+    sleep 1
+    rm -r "$INSTALL_DIR"
+    rm -r "/usr/local/bin/$CUSTOM_COMMAND"
+    echo "SentinelNetGuard has been uninstalled."
+  else
+    echo "SentinelNetGuard is not installed."
+  fi
+  exit 0
+fi
+
+if [ -d "$INSTALL_DIR" ]; then
+  echo "Node already present at: $INSTALL_DIR, removing..."
+  sleep 1
+  rm -r "$INSTALL_DIR"
+  rm -r "/usr/local/bin/$CUSTOM_COMMAND"
+fi
+
 pre_arg=""
 part1_arg=""
 part2_arg=""
 
-# Check if the -pre argument is set
 if [ "$1" == "-pre" ] && [ -n "$2" ]; then
     pre_arg="$2"
 fi
 
-# Check if the -part1 argument is set
 if [ "$3" == "-part1" ] && [ -n "$4" ]; then
     part1_arg="$4"
 fi
 
-# Check if the -part2 argument is set
 if [ "$5" == "-part2" ] && [ -n "$6" ]; then
     part2_arg="$6"
 fi
 
-# Check for Python 3
 if ! command -v python3 &> /dev/null; then
   echo "Python 3 is not installed."
-  # Install Python 3
   apt-get install python3
-  # Install pip3
   apt-get install python3-pip
 fi
 
@@ -57,10 +66,5 @@ pip3 install -r "$INSTALL_DIR/requirements.txt"
 mv "$INSTALL_DIR/sennet" "/usr/local/bin/$CUSTOM_COMMAND"
 chmod +x "/usr/local/bin/$CUSTOM_COMMAND"
 
-# Start
 cd "$INSTALL_DIR"
-if [ -n "$pre_arg" ] && [ -n "$part1_arg" ] && [ -n "$part2_arg" ]; then
-    python3 main.py -pre "$pre_arg" -part1 "$part1_arg" -part2 "$part2_arg"
-else
-    python3 main.py -pre "$pre_arg" -part1 "$part1_arg" -part2 "$part2_arg"
-fi
+python3 main.py -pre "$pre_arg" -part1 "$part1_arg" -part2 "$part2_arg"
