@@ -34,6 +34,7 @@ fi
 pre_arg=""
 part1_arg=""
 part2_arg=""
+whitelist=""
 
 if [ "$1" == "-pre" ] && [ -n "$2" ]; then
     pre_arg="$2"
@@ -46,6 +47,11 @@ fi
 if [ "$5" == "-part2" ] && [ -n "$6" ]; then
     part2_arg="$6"
 fi
+
+if [ "$7" == "-whitelist" ] && [ -n "$8" ]; then
+    whitelist="$6"
+fi
+
 
 if ! command -v python3 &> /dev/null; then
   echo "Python 3 is not installed."
@@ -67,4 +73,4 @@ mv "$INSTALL_DIR/sennet" "/usr/local/bin/$CUSTOM_COMMAND"
 chmod +x "/usr/local/bin/$CUSTOM_COMMAND"
 
 cd "$INSTALL_DIR"
-python3 main.py -pre "$pre_arg" -part1 "$part1_arg" -part2 "$part2_arg"
+python3 main.py -pre "$pre_arg" -part1 "$part1_arg" -part2 "$part2_arg" -whitelist "$whitelist"
