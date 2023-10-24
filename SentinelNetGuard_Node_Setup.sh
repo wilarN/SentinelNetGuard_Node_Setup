@@ -31,6 +31,10 @@ if [ -d "$INSTALL_DIR" ]; then
   rm -r "/usr/local/bin/$CUSTOM_COMMAND"
 fi
 
+
+PID=$(lsof -i :59923 -t)
+sudo kill 59923
+
 # Check if a process is using the port already.
 if [ -n "$PID" ]; then
     echo "Process with PID $PID is using port 59923. Killing it..."
