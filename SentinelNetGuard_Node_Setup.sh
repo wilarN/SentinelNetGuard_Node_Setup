@@ -31,6 +31,14 @@ if [ -d "$INSTALL_DIR" ]; then
   rm -r "/usr/local/bin/$CUSTOM_COMMAND"
 fi
 
+# Check if a process is using the port already.
+if [ -n "$PID" ]; then
+    echo "Process with PID $PID is using port 59923. Killing it..."
+    kill -9 "$PID"
+else
+    echo "No process found using port 59923."
+fi
+
 pre_arg=""
 part1_arg=""
 part2_arg=""
