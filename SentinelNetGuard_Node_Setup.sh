@@ -35,8 +35,10 @@ fi
 if [ -n "$PID" ]; then
     echo "Process with PID $PID is using port 59923. Killing it..."
     kill -9 "$PID"
+	sleep 2
 else
     echo "No process found using port 59923."
+	sleep 2
 fi
 
 pre_arg=""
