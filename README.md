@@ -35,6 +35,6 @@ sudo ./SentinelNetGuard_Node_Setup.sh --uninstall
 
 <br><br>
 
-Copyright © William Johnsson 2023
+Copyright © William Johnsson 2022-2024
 
 This code is protected by copyright law. No license is granted. Unauthorized use, modification, or distribution is prohibited.
