@@ -33,16 +33,14 @@ fi
 
 
 PID=$(lsof -i :59923 -t)
-sudo kill 59923
 
-# Check if a process is using the port already.
 if [ -n "$PID" ]; then
     echo "Process with PID $PID is using port 59923. Killing it..."
     kill -9 "$PID"
-	sleep 2
+    sleep 2
 else
     echo "No process found using port 59923."
-	sleep 2
+    sleep 2
 fi
 
 pre_arg=""
@@ -64,7 +62,7 @@ if [ "$5" == "-part2" ] && [ -n "$6" ]; then
 fi
 
 if [ "$7" == "-whitelist" ] && [ -n "$8" ]; then
-    whitelist="$6"
+    whitelist="$8"
 fi
 
 for arg in "$@"; do
@@ -88,7 +86,11 @@ chown -R $SUDO_USER:$SUDO_USER "$INSTALL_DIR"
 chmod -R 755 "$INSTALL_DIR"
 chmod -R o+x "$INSTALL_DIR"
 
-pip3 install -r "$INSTALL_DIR/requirements.txt"
+mkdir -p /var/log/sentinelnetguard
+chown -R $SUDO_USER:$SUDO_USER /var/log/sentinelnetguard
+chmod 755 /var/log/sentinelnetguard
+
+pip3 install --break-system-packages -r "$INSTALL_DIR/requirements.txt"
 
 mv "$INSTALL_DIR/sennet" "/usr/local/bin/$CUSTOM_COMMAND"
 chmod +x "/usr/local/bin/$CUSTOM_COMMAND"
