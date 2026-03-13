@@ -49,6 +49,7 @@ pre_arg=""
 part1_arg=""
 part2_arg=""
 whitelist=""
+debug_flag=""
 
 if [ "$1" == "-pre" ] && [ -n "$2" ]; then
     pre_arg="$2"
@@ -66,6 +67,12 @@ if [ "$7" == "-whitelist" ] && [ -n "$8" ]; then
     whitelist="$6"
 fi
 
+for arg in "$@"; do
+    if [ "$arg" == "--debug" ]; then
+        debug_flag="--debug"
+    fi
+done
+
 
 if ! command -v python3 &> /dev/null; then
   echo "Python 3 is not installed."
@@ -77,7 +84,7 @@ mkdir -p "$INSTALL_DIR"
 
 git clone "$GITHUB_REPO" "$INSTALL_DIR"
 
-chown -R root:root "$INSTALL_DIR"
+chown -R $SUDO_USER:$SUDO_USER "$INSTALL_DIR"
 chmod -R 755 "$INSTALL_DIR"
 chmod -R o+x "$INSTALL_DIR"
 
@@ -87,4 +94,4 @@ mv "$INSTALL_DIR/sennet" "/usr/local/bin/$CUSTOM_COMMAND"
 chmod +x "/usr/local/bin/$CUSTOM_COMMAND"
 
 cd "$INSTALL_DIR"
-python3 main.py -pre "$pre_arg" -part1 "$part1_arg" -part2 "$part2_arg" -whitelist "$whitelist"
+python3 main.py -pre "$pre_arg" -part1 "$part1_arg" -part2 "$part2_arg" -whitelist "$whitelist" $debug_flag
