@@ -11,12 +11,15 @@ if [ "$(id -u)" != "0" ]; then
   exit 1
 fi
 
+INSTALL_USER=${SUDO_USER:-$USER}
+
 if [ "$1" == "--uninstall" ]; then
   if [ -d "$INSTALL_DIR" ]; then
     echo "Uninstalling SentinelNetGuard Node..."
     sleep 1
     rm -r "$INSTALL_DIR"
     rm -r "/usr/local/bin/$CUSTOM_COMMAND"
+    rm -rf /var/log/sentinelnetguard
     echo "SentinelNetGuard has been uninstalled."
   else
     echo "SentinelNetGuard is not installed."
@@ -72,28 +75,30 @@ for arg in "$@"; do
 done
 
 
-if ! command -v python3 &> /dev/null; then
-  echo "Python 3 is not installed."
-  apt-get install python3
-  apt-get install python3-pip
-fi
+apt-get update
+apt-get install -y python3 python3-venv python3-pip
+
 
 mkdir -p "$INSTALL_DIR"
 
-git clone "$GITHUB_REPO" "$INSTALL_DIR"
+git clone "$GITHUB_REPO" "$INSTALL_DIR" || {
+  echo "Failed to clone SentinelNetGuard repository."
+  exit 1
+}
 
-chown -R $SUDO_USER:$SUDO_USER "$INSTALL_DIR"
+python3 -m venv "$INSTALL_DIR/venv"
+
+chown -R $INSTALL_USER:$INSTALL_USER "$INSTALL_DIR"
 chmod -R 755 "$INSTALL_DIR"
-chmod -R o+x "$INSTALL_DIR"
 
 mkdir -p /var/log/sentinelnetguard
-chown -R $SUDO_USER:$SUDO_USER /var/log/sentinelnetguard
+chown -R $INSTALL_USER:$INSTALL_USER /var/log/sentinelnetguard
 chmod 755 /var/log/sentinelnetguard
 
-pip3 install --break-system-packages -r "$INSTALL_DIR/requirements.txt"
+sudo -u "$INSTALL_USER" "$INSTALL_DIR/venv/bin/pip" install -r "$INSTALL_DIR/requirements.txt"
 
 mv "$INSTALL_DIR/sennet" "/usr/local/bin/$CUSTOM_COMMAND"
 chmod +x "/usr/local/bin/$CUSTOM_COMMAND"
 
 cd "$INSTALL_DIR"
-python3 main.py -pre "$pre_arg" -part1 "$part1_arg" -part2 "$part2_arg" -whitelist "$whitelist" $debug_flag
+"$INSTALL_DIR/venv/bin/python" main.py -pre "$pre_arg" -part1 "$part1_arg" -part2 "$part2_arg" -whitelist "$whitelist" $debug_flag
